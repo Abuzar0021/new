@@ -7,222 +7,244 @@
   <meta name="description" content="A studio that builds and ranks your software, paid only from the revenue it creates." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="is-loading">
+
+  <!-- SVG filters: halftone + misregistration -->
+  <svg class="defs" aria-hidden="true" width="0" height="0">
+    <filter id="misregister" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feOffset in="SourceGraphic" dx="1.2" dy="0" result="r"/>
+      <feColorMatrix in="r" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0" result="red"/>
+      <feOffset in="SourceGraphic" dx="-1.2" dy="0.6" result="c"/>
+      <feColorMatrix in="c" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.55 0" result="cyan"/>
+      <feMerge><feMergeNode in="red"/><feMergeNode in="cyan"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.9" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
+  <!-- Paper grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__label"></span></div>
+
   <!-- Loader -->
   <div class="loader" id="loader" aria-hidden="true">
     <div class="loader__inner">
-      <span class="loader__label">Loading <strong id="loaderPct">0%</strong></span>
+      <svg class="loader__pear" viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 4c0 6-1 9-4 13-6 8-12 13-12 22a16 16 0 0 0 32 0c0-9-6-14-12-22-3-4-4-7-4-13z"/><path d="M20 4c1-2 3-3 6-3"/></svg>
+      <p class="loader__label">The film is loading <strong id="loaderPct">0%</strong></p>
       <div class="loader__bar"><span id="loaderBar"></span></div>
     </div>
   </div>
 
   <!-- Header -->
-  <header class="header" id="top">
-    <a href="#top" class="header__logo">Pear</a>
+  <header class="header" id="header">
+    <a href="#top" class="header__logo" data-magnetic>
+      <svg viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 4c0 6-1 9-4 13-6 8-12 13-12 22a16 16 0 0 0 32 0c0-9-6-14-12-22-3-4-4-7-4-13z"/></svg>
+      <span>pear</span>
+    </a>
     <nav class="header__nav" aria-label="Chapters">
-      <a href="#model"><b>Ch. 1</b> <i>The Model</i></a>
-      <a href="#work"><b>Ch. 2</b> <i>The Work</i></a>
-      <a href="#terms"><b>Ch. 3</b> <i>The Terms</i></a>
-      <a href="#questions"><b>Ch. 4</b> <i>Questions</i></a>
+      <a href="#model" data-nav><b>Ch. 1</b><i>The Model</i></a>
+      <a href="#work" data-nav><b>Ch. 2</b><i>The Work</i></a>
+      <a href="#terms" data-nav><b>Ch. 3</b><i>The Terms</i></a>
+      <a href="#questions" data-nav><b>Ch. 4</b><i>Questions</i></a>
     </nav>
-    <a href="#apply" class="header__cta">Request Partnership <span aria-hidden="true">→</span></a>
-    <button class="header__burger" id="burger" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span>
-    </button>
+    <a href="#apply" class="header__cta" data-magnetic>
+      <span class="roll"><span>Request Partnership →</span><span aria-hidden="true">Request Partnership →</span></span>
+    </a>
+    <button class="header__burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
   </header>
 
-  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile chapters">
-    <a href="#model"><b>Ch. 1</b> <i>The Model</i></a>
-    <a href="#work"><b>Ch. 2</b> <i>The Work</i></a>
-    <a href="#terms"><b>Ch. 3</b> <i>The Terms</i></a>
-    <a href="#questions"><b>Ch. 4</b> <i>Questions</i></a>
-    <a href="#apply" class="mobile-nav__cta">Request Partnership →</a>
+  <nav class="menu" id="menu" aria-label="Mobile chapters">
+    <a href="#model"><b>Ch. 1</b><i>The Model</i></a>
+    <a href="#work"><b>Ch. 2</b><i>The Work</i></a>
+    <a href="#terms"><b>Ch. 3</b><i>The Terms</i></a>
+    <a href="#questions"><b>Ch. 4</b><i>Questions</i></a>
+    <a href="#apply" class="menu__cta">Request Partnership →</a>
   </nav>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero__media" aria-hidden="true">
-        <div class="hero__grain"></div>
-        <div class="hero__glow"></div>
-      </div>
-      <div class="hero__content">
-        <h1 class="hero__title">
-          <span class="word">Pear</span>
-          <span class="word">gets</span>
-          <span class="word">you</span>
-          <span class="word">found.</span>
-        </h1>
-        <p class="hero__sub">
-          <span class="line">Paid on your growth,</span>
-          <span class="line">never on our hours.</span>
-        </p>
-        <a href="#apply" class="btn btn--light hero__btn">
-          <span class="btn__text">Request Partnership →</span>
-          <span class="btn__text btn__text--hover" aria-hidden="true">Request Partnership →</span>
-        </a>
-      </div>
-      <div class="hero__scroll" aria-hidden="true"><span></span></div>
-    </section>
+  <main id="top">
 
-    <!-- Ch. 1 The Model -->
-    <section class="model" id="model">
-      <div class="chapter-mark"><b>Ch. 1</b><i>The Model</i></div>
-      <div class="model__statements">
-        <h2 class="statement reveal"><em>We build.</em></h2>
-        <h2 class="statement reveal"><em>We rank.</em></h2>
-        <h2 class="statement reveal"><em>We get paid<br />when you do.</em></h2>
-      </div>
-      <p class="model__lede reveal">
-        We design the software, put it where your customers are already searching, and take a slice of the revenue that follows. No retainer, no invoices for time — only a stake in the outcome.
-      </p>
-      <ul class="model__pillars">
-        <li class="reveal">
-          <span class="pillar__num">01</span>
-          <p>Software engineered to rank from day one.</p>
-        </li>
-        <li class="reveal">
-          <span class="pillar__num">02</span>
-          <p>Search, content and links that bring the crowd to you.</p>
-        </li>
-        <li class="reveal">
-          <span class="pillar__num">03</span>
-          <p>Zero billable hours — we share the result instead.</p>
-        </li>
-      </ul>
-      <p class="model__service reveal">At your service</p>
-    </section>
+    <!-- ============ HERO: scroll-scrubbed film ============ -->
+    <section class="film" id="film">
+      <div class="film__sticky">
+        <canvas class="film__canvas" id="filmCanvas"></canvas>
+        <div class="film__vignette"></div>
 
-    <!-- Ch. 2 The Work -->
-    <section class="work" id="work">
-      <div class="chapter-mark"><b>Ch. 2</b><i>The Work</i></div>
+        <div class="film__title">
+          <h1 class="display" id="heroTitle" data-split>Pear gets you found.</h1>
+          <p class="hero__sub" data-split-lines>
+            <span>Paid on your growth,</span><span>never on our hours.</span>
+          </p>
+          <a href="#apply" class="btn btn--ink" data-magnetic>
+            <span class="roll"><span>Request Partnership →</span><span aria-hidden="true">Request Partnership →</span></span>
+          </a>
+        </div>
 
-      <article class="work__block reveal">
-        <span class="eyebrow">Search engine optimization</span>
-        <h2 class="work__title"><em>One team, one roof,<br />one goal: visibility.</em></h2>
-        <p>We treat search and engineering as a single craft. The people writing the code are the same people tuning the rankings, so nothing is lost in the hand-off.</p>
-      </article>
-
-      <article class="work__block work__block--wide reveal">
-        <span class="eyebrow">Custom software</span>
-        <h2 class="work__title work__title--large">
-          <em>We build what gets ranked:<br />shops, marketplaces, booking flows,<br />the tools a modern business<br />actually sells through.</em>
-        </h2>
-        <p>Too many products are built first and made discoverable later. We flip the order: speed, structure and clean markup are decided at the architecture stage, so search engines get a site they can read without effort.</p>
-      </article>
-
-      <div class="work__marquee" aria-hidden="true">
-        <div class="work__track">
-          <span>Storefronts</span><span>·</span><span>Marketplaces</span><span>·</span><span>Booking systems</span><span>·</span><span>SaaS</span><span>·</span><span>Technical SEO</span><span>·</span><span>Link building</span><span>·</span><span>Content</span><span>·</span>
-          <span>Storefronts</span><span>·</span><span>Marketplaces</span><span>·</span><span>Booking systems</span><span>·</span><span>SaaS</span><span>·</span><span>Technical SEO</span><span>·</span><span>Link building</span><span>·</span><span>Content</span><span>·</span>
+        <div class="film__caption">
+          <span class="film__counter"><b id="frameNo">001</b><i>/ 048</i></span>
+          <span class="film__hint">Scroll to develop the film</span>
         </div>
       </div>
     </section>
 
-    <!-- Ch. 3 The Terms -->
+    <!-- ============ Ch.1 THE MODEL: pinned statements ============ -->
+    <section class="model" id="model">
+      <div class="model__sticky">
+        <div class="chapter"><b>Ch. 1</b><i>The Model</i></div>
+        <div class="model__stack">
+          <h2 class="display display--xl model__line" data-line><em>We build.</em></h2>
+          <h2 class="display display--xl model__line" data-line><em>We rank.</em></h2>
+          <h2 class="display display--xl model__line" data-line><em>We get paid<br/>when you do.</em></h2>
+        </div>
+        <img class="cloud cloud--a" src="assets/cloud.png" alt="" data-parallax="0.25" />
+        <img class="cloud cloud--b" src="assets/cloud.png" alt="" data-parallax="-0.15" />
+      </div>
+    </section>
+
+    <section class="lede">
+      <p class="lede__text" data-words>
+        We design the software, put it where your customers are already searching, and take a slice of the revenue that follows. No retainer, no invoices for time — only a stake in the outcome.
+      </p>
+      <ul class="pillars">
+        <li data-reveal><span>01</span><p>Software engineered to rank from day one.</p></li>
+        <li data-reveal><span>02</span><p>Search, content and links that bring the crowd to you.</p></li>
+        <li data-reveal><span>03</span><p>Zero billable hours — we share the result instead.</p></li>
+      </ul>
+      <p class="lede__foot" data-reveal>At your service</p>
+    </section>
+
+    <!-- ============ Ch.2 THE WORK: painting spread with cards ============ -->
+    <section class="work" id="work">
+      <div class="work__art" data-halftone>
+        <img src="assets/pear-gilded.jpg" alt="" class="work__img" data-parallax="0.12" />
+        <img src="assets/pear-gilded.jpg" alt="" class="work__img work__img--dots" aria-hidden="true" data-parallax="0.12" />
+        <img class="cloud cloud--c" src="assets/cloud.png" alt="" data-parallax="0.4" />
+      </div>
+
+      <div class="chapter chapter--light"><b>Ch. 2</b><i>The Work</i></div>
+
+      <article class="card card--a" data-card>
+        <h2 class="serif">One team, one roof,<br/>one goal: visibility.</h2>
+        <p>We treat search and engineering as a single craft. The people writing the code are the same people tuning the rankings, so nothing is lost in the hand-off.</p>
+      </article>
+
+      <article class="card card--b" data-card>
+        <h3 class="serif serif--sm">Search engine optimization</h3>
+        <p>Technical fixes, content and digital PR run as one programme. We remove what keeps crawlers out, write pages that match what buyers actually type, and earn links that move rankings — measured in revenue, not traffic charts.</p>
+      </article>
+
+      <article class="card card--c" data-card>
+        <h3 class="serif serif--sm">Custom software</h3>
+        <p>Shops, marketplaces, booking flows: the tools a modern business actually sells through. Speed, structure and clean markup are decided at the architecture stage, so search engines get a site they can read without effort.</p>
+      </article>
+    </section>
+
+    <!-- Halftone torn edge -->
+    <div class="tear" aria-hidden="true"></div>
+
+    <!-- ============ Ch.3 THE TERMS ============ -->
     <section class="terms" id="terms">
-      <div class="chapter-mark"><b>Ch. 3</b><i>The Terms</i></div>
-
+      <div class="chapter"><b>Ch. 3</b><i>The Terms</i></div>
       <div class="terms__grid">
-        <article class="terms__card reveal">
-          <h2><em>Nothing upfront.<br />A share of what's new.</em></h2>
+        <article class="terms__card" data-reveal>
+          <h2 class="serif" data-split>Nothing upfront. A share of what's new.</h2>
           <p>Starting costs you nothing: no deposit, no project fee, no clock running. Strategy, development, content and links are all funded by us.</p>
-          <span class="eyebrow">Full disclosure</span>
-          <p class="terms__small">Our compensation is a pre-agreed percentage of the revenue above your current baseline, tracked in a dashboard both sides can see. Everything we make — code, content, rankings — is yours to keep. We only take on a handful of partners at once, because we can't afford to say yes to the wrong ones.</p>
+          <hr/>
+          <small>Full disclosure</small>
+          <p class="fine">Our compensation is a pre-agreed percentage of the revenue above your current baseline, tracked in a dashboard both sides can see. Everything we make — code, content, rankings — is yours to keep. We only take on a handful of partners at once, because we can't afford to say yes to the wrong ones.</p>
         </article>
-
-        <article class="terms__card reveal">
-          <h2><em>We decline<br />more than we accept.</em></h2>
+        <article class="terms__card" data-reveal>
+          <h2 class="serif" data-split>We decline more than we accept.</h2>
           <p>The partners we work with sell real things, already have revenue, and operate in markets where buyers use search: online retail, SaaS, marketplaces and service businesses.</p>
-          <span class="eyebrow">Full disclosure</span>
-          <p class="terms__small">If that describes you, the terms on the left are the entire pitch. If you're pre-revenue, looking to hire developers by the hour, or need results next week, we're not the right fit — and we'll say so on the first call.</p>
+          <hr/>
+          <small>Full disclosure</small>
+          <p class="fine">If that describes you, the terms on the left are the entire pitch. If you're pre-revenue, looking to hire developers by the hour, or need results next week, we're not the right fit — and we'll say so on the first call.</p>
         </article>
       </div>
     </section>
 
-    <!-- Ch. 4 Questions -->
+    <!-- ============ Ch.4 QUESTIONS ============ -->
     <section class="faq" id="questions">
-      <div class="chapter-mark"><b>Ch. 4</b><i>Questions</i></div>
-      <span class="eyebrow reveal">Asked before</span>
-
+      <div class="chapter"><b>Ch. 4</b><i>Questions</i></div>
+      <small class="faq__eyebrow" data-reveal>Asked before</small>
       <div class="faq__list">
-        <details class="faq__item reveal" open>
-          <summary><h3>What does working with Pear cost?</h3><span class="faq__icon"></span></summary>
+        <details class="faq__item" data-reveal open>
+          <summary><h3 class="serif serif--sm">What does working with Pear cost?</h3><i></i></summary>
           <div class="faq__body"><p>There's no upfront charge and no hourly rate. We cover the cost of strategy, software, content and links ourselves and get paid as a percentage of the new revenue the work produces. No growth, no bill.</p></div>
         </details>
-        <details class="faq__item reveal">
-          <summary><h3>How big is your share?</h3><span class="faq__icon"></span></summary>
+        <details class="faq__item" data-reveal>
+          <summary><h3 class="serif serif--sm">How big is your share?</h3><i></i></summary>
           <div class="faq__body"><p>We agree it per partnership before kicking off, and it scales with how much needs to be built. It only ever applies to revenue above your existing baseline — never to what you were already earning.</p></div>
         </details>
-        <details class="faq__item reveal">
-          <summary><h3>Why not just charge fees?</h3><span class="faq__icon"></span></summary>
+        <details class="faq__item" data-reveal>
+          <summary><h3 class="serif serif--sm">Why not just charge fees?</h3><i></i></summary>
           <div class="faq__body"><p>Hourly billing rewards effort rather than outcomes. A retainer pays out whether or not you grow. By dropping the retainer entirely, our only route to getting paid is making your revenue climb.</p></div>
         </details>
-        <details class="faq__item reveal">
-          <summary><h3>How do you attribute the revenue?</h3><span class="faq__icon"></span></summary>
+        <details class="faq__item" data-reveal>
+          <summary><h3 class="serif serif--sm">How do you attribute the revenue?</h3><i></i></summary>
           <div class="faq__body"><p>We start by agreeing on a baseline from your current numbers and on how new organic revenue is measured — analytics, orders or bookings, depending on the business. Both parties look at the same dashboard.</p></div>
         </details>
-        <details class="faq__item reveal">
-          <summary><h3>When does it start paying off?</h3><span class="faq__icon"></span></summary>
+        <details class="faq__item" data-reveal>
+          <summary><h3 class="serif serif--sm">When does it start paying off?</h3><i></i></summary>
           <div class="faq__body"><p>Search grows slowly, then all at once. Technical work ships within weeks; rankings and revenue usually follow over a few months. Since we finance the ramp-up, the wait costs you nothing.</p></div>
         </details>
       </div>
     </section>
 
-    <!-- Application -->
+    <!-- ============ APPLICATION ============ -->
     <section class="apply" id="apply">
-      <div class="apply__intro reveal">
-        <span class="eyebrow">The application</span>
-        <p>Tell us what you sell and where you want to grow. We read every application, and if the model fits we reply within a week.</p>
+      <div class="apply__left">
+        <h2 class="serif serif--lg" data-split>Put your company in the upside.</h2>
+        <p class="apply__intro" data-reveal>Tell us what you sell and where you want to grow. We read every application, and if the model fits we reply within a week.</p>
+
+        <form class="form" id="applyForm" novalidate data-reveal>
+          <label class="field"><span>Your name</span><input type="text" name="name" required autocomplete="name"/></label>
+          <label class="field"><span>Company</span><input type="text" name="company" required autocomplete="organization"/></label>
+          <label class="field"><span>Work email</span><input type="email" name="email" required autocomplete="email"/></label>
+          <label class="field"><span>Website</span><input type="url" name="website" placeholder="https://"/></label>
+          <label class="field field--full"><span>What do you want to grow?</span><textarea name="grow" rows="3" required></textarea></label>
+          <div class="field--full form__actions">
+            <button type="submit" class="btn btn--solid" data-magnetic>
+              <span class="roll"><span>Send the application&nbsp;&nbsp;→</span><span aria-hidden="true">Send the application&nbsp;&nbsp;→</span></span>
+            </button>
+            <svg class="form__pear" id="formPear" viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 4c0 6-1 9-4 13-6 8-12 13-12 22a16 16 0 0 0 32 0c0-9-6-14-12-22-3-4-4-7-4-13z"/></svg>
+            <p class="form__note" id="applyNote" role="status"></p>
+          </div>
+        </form>
       </div>
 
-      <form class="apply__form reveal" id="applyForm" novalidate>
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required autocomplete="name" />
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required autocomplete="email" />
-        </div>
-        <div class="field">
-          <label for="company">Company</label>
-          <input type="text" id="company" name="company" required autocomplete="organization" />
-        </div>
-        <div class="field">
-          <label for="website">Website</label>
-          <input type="url" id="website" name="website" placeholder="https://" />
-        </div>
-        <div class="field field--full">
-          <label for="sell">What do you sell?</label>
-          <textarea id="sell" name="sell" rows="3" required></textarea>
-        </div>
-        <div class="field field--full">
-          <label for="grow">Where do you want to grow?</label>
-          <textarea id="grow" name="grow" rows="3" required></textarea>
-        </div>
-        <div class="field field--full apply__submit">
-          <button type="submit" class="btn btn--dark">
-            <span class="btn__text">Send the application</span>
-            <span class="btn__text btn__text--hover" aria-hidden="true">Send the application</span>
-          </button>
-          <p class="apply__note" id="applyNote" role="status"></p>
-        </div>
-      </form>
+      <div class="apply__right" data-halftone>
+        <img src="assets/muse.jpg" alt="" class="apply__img" data-parallax="0.1"/>
+        <img src="assets/muse.jpg" alt="" class="apply__img apply__img--dots" aria-hidden="true" data-parallax="0.1"/>
+        <img class="cloud cloud--d" src="assets/cloud.png" alt="" data-parallax="0.35"/>
+        <svg class="plane" id="plane" viewBox="0 0 120 60" aria-hidden="true"><path d="M2 30 L118 2 L80 58 L60 36 Z" fill="#15140f"/><path d="M60 36 L118 2 L52 30 Z" fill="#5a5850"/></svg>
+      </div>
     </section>
   </main>
 
+  <div class="tear tear--flip" aria-hidden="true"></div>
+
   <footer class="footer">
-    <p class="footer__tag"><em>Paid on your growth,<br />never on our hours.</em></p>
+    <a href="#top" class="footer__logo" data-magnetic>
+      <svg viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 4c0 6-1 9-4 13-6 8-12 13-12 22a16 16 0 0 0 32 0c0-9-6-14-12-22-3-4-4-7-4-13z"/></svg>
+      <span>pear</span>
+    </a>
+    <p class="footer__tag serif"><em>Paid on your growth,<br/>never on our hours.</em></p>
     <div class="footer__row">
       <span>PEAR AS · OSLO</span>
       <a href="mailto:hello@example.com">HELLO@EXAMPLE.COM</a>
     </div>
   </footer>
 
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
