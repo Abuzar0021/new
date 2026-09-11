@@ -68,7 +68,7 @@
   video.load(); bufferTick();
   // time-based floor so the bar always moves, and a hard cap so the page can never stay hidden
   gsap.to({ p: 0 }, { p: 90, duration: 3, ease: 'power1.out', onUpdate: function () { if (!introDone) setProgress(this.targets()[0].p); } });
-  setTimeout(intro, 4000);
+  setTimeout(intro, 2500);
   addEventListener('error', () => intro());
   // iOS: unlock scrubbing after first gesture
   const unlock = () => { video.play().then(() => video.pause()).catch(() => {}); removeEventListener('touchstart', unlock); };
@@ -77,14 +77,15 @@
   /* 4. Intro --------------------------------------------------------- */
   function intro() {
     if (introDone) return; introDone = true;
-    const forceShow = () => { const l = $('#loader'); if (l) l.style.display = 'none'; body.classList.remove('is-loading'); lenis && lenis.start(); };
+    const forceShow = () => { window.__reveal && window.__reveal('js-fallback'); lenis && lenis.start(); };
+    if (window.__revealed) { forceShow(); try { buildScroll(); } catch (e2) { console.error(e2); } return; }
     try { runIntro(); } catch (err) { console.error(err); forceShow(); try { buildScroll(); } catch (e2) { console.error(e2); } }
   }
   function runIntro() {
     const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
     tl.to('#loader', { yPercent: -100, duration: 1.1, ease: 'expo.inOut', delay: 0.25 })
       .set('#loader', { display: 'none' })
-      .add(() => { body.classList.remove('is-loading'); lenis && lenis.start(); }, '<')
+      .add(() => { window.__reveal && window.__reveal('intro'); lenis && lenis.start(); }, '<')
       .from('[data-reveal-now]', { opacity: 0, y: 10, duration: 0.8 }, '-=0.8')
       .from('#heroTitle .char', { yPercent: 110, rotate: 3, duration: 1.2, stagger: 0.02 }, '-=0.7')
       .from('.film__sub > span > span', { yPercent: 110, duration: 1, stagger: 0.1 }, '-=0.9')
