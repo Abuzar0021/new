@@ -3,227 +3,217 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pear — Build. Rank. Share the upside.</title>
-  <meta name="description" content="A studio that builds and ranks your software, paid only from the revenue it creates." />
+  <title>OmniStack Digital — Websites you actually own.</title>
+  <meta name="description" content="Fast, self-hosted websites for businesses that are finished renting their own storefront. You get the code, the keys, the hosting account, and an invoice that actually ends." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="is-loading">
 
-  <!-- SVG filters: halftone + misregistration -->
-  <svg class="defs" aria-hidden="true" width="0" height="0">
-    <filter id="misregister" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
-      <feOffset in="SourceGraphic" dx="1.2" dy="0" result="r"/>
-      <feColorMatrix in="r" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0" result="red"/>
-      <feOffset in="SourceGraphic" dx="-1.2" dy="0.6" result="c"/>
-      <feColorMatrix in="c" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.55 0" result="cyan"/>
-      <feMerge><feMergeNode in="red"/><feMergeNode in="cyan"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="3" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.9" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-  </svg>
-
-  <!-- Paper grain overlay -->
   <div class="grain" aria-hidden="true"></div>
-
-  <!-- Cursor -->
   <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__label"></span></div>
 
   <!-- Loader -->
   <div class="loader" id="loader" aria-hidden="true">
     <div class="loader__inner">
-      <svg class="loader__pear" viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 4c0 6-1 9-4 13-6 8-12 13-12 22a16 16 0 0 0 32 0c0-9-6-14-12-22-3-4-4-7-4-13z"/><path d="M20 4c1-2 3-3 6-3"/></svg>
-      <p class="loader__label">The film is loading <strong id="loaderPct">0%</strong></p>
+      <svg class="loader__berry" viewBox="0 0 48 52" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M24 12C10 12 4 22 4 30c0 10 10 20 20 20s20-10 20-20c0-8-6-18-20-18z"/><path d="M24 12c-1-4-3-7-6-9M24 12c2-4 5-6 9-7M24 12l-8-2M24 12l9-1"/><circle cx="16" cy="28" r="1"/><circle cx="24" cy="24" r="1"/><circle cx="32" cy="29" r="1"/><circle cx="20" cy="38" r="1"/><circle cx="29" cy="39" r="1"/></svg>
+      <p class="loader__label mono">The film is loading <strong id="loaderPct">0%</strong></p>
       <div class="loader__bar"><span id="loaderBar"></span></div>
     </div>
   </div>
 
   <!-- Header -->
   <header class="header" id="header">
-    <a href="#top" class="header__logo" data-magnetic>
-      <svg viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 4c0 6-1 9-4 13-6 8-12 13-12 22a16 16 0 0 0 32 0c0-9-6-14-12-22-3-4-4-7-4-13z"/></svg>
-      <span>pear</span>
-    </a>
+    <a href="#top" class="header__logo" data-magnetic>OmniStack</a>
     <nav class="header__nav" aria-label="Chapters">
-      <a href="#model" data-nav><b>Ch. 1</b><i>The Model</i></a>
-      <a href="#work" data-nav><b>Ch. 2</b><i>The Work</i></a>
-      <a href="#terms" data-nav><b>Ch. 3</b><i>The Terms</i></a>
-      <a href="#questions" data-nav><b>Ch. 4</b><i>Questions</i></a>
+      <a href="#why" data-nav><b>Ch. 1</b><i>Why us</i></a>
+      <a href="#build" data-nav><b>Ch. 2</b><i>The build</i></a>
+      <a href="#handover" data-nav><b>Ch. 3</b><i>Handover</i></a>
+      <a href="#work" data-nav><b>Ch. 4</b><i>The work</i></a>
     </nav>
-    <a href="#apply" class="header__cta" data-magnetic>
-      <span class="roll"><span>Request Partnership →</span><span aria-hidden="true">Request Partnership →</span></span>
-    </a>
+    <a href="#cta" class="btn btn--primary header__cta" data-magnetic><span class="roll"><span>Start a build</span><span aria-hidden="true">Start a build</span></span></a>
     <button class="header__burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
   </header>
 
   <nav class="menu" id="menu" aria-label="Mobile chapters">
-    <a href="#model"><b>Ch. 1</b><i>The Model</i></a>
-    <a href="#work"><b>Ch. 2</b><i>The Work</i></a>
-    <a href="#terms"><b>Ch. 3</b><i>The Terms</i></a>
-    <a href="#questions"><b>Ch. 4</b><i>Questions</i></a>
-    <a href="#apply" class="menu__cta">Request Partnership →</a>
+    <a href="#why"><b>Ch. 1</b><i>Why us</i></a>
+    <a href="#build"><b>Ch. 2</b><i>The build</i></a>
+    <a href="#handover"><b>Ch. 3</b><i>Handover</i></a>
+    <a href="#work"><b>Ch. 4</b><i>The work</i></a>
+    <a href="#cta" class="menu__cta">Start a build →</a>
   </nav>
 
   <main id="top">
 
-    <!-- ============ HERO: scroll-scrubbed film ============ -->
+    <!-- ================= HERO : scroll-scrubbed film + WebGL halftone ================= -->
     <section class="film" id="film">
       <div class="film__sticky">
-        <canvas class="film__canvas" id="filmCanvas"></canvas>
-        <div class="film__vignette"></div>
+        <video class="film__video" id="filmVideo" muted playsinline preload="auto" poster="media/hero-poster.jpg" crossorigin="anonymous">
+          <source src="media/hero-film.mp4" type="video/mp4" />
+        </video>
+        <canvas class="film__gl" id="filmGL"></canvas>
 
-        <div class="film__title">
-          <h1 class="display" id="heroTitle" data-split>Pear gets you found.</h1>
-          <p class="hero__sub" data-split-lines>
-            <span>Paid on your growth,</span><span>never on our hours.</span>
+        <div class="film__copy">
+          <span class="badge" data-reveal-now>✦ Solo-built · Self-hosted · Yours</span>
+          <h1 class="display" id="heroTitle" data-split>Websites you actually own.</h1>
+          <p class="film__sub" data-split-lines>
+            <span>Fast, self-hosted sites for businesses that are finished</span>
+            <span>renting their own storefront. You get the code, the keys,</span>
+            <span>the hosting account, and an invoice that actually ends.</span>
           </p>
-          <a href="#apply" class="btn btn--ink" data-magnetic>
-            <span class="roll"><span>Request Partnership →</span><span aria-hidden="true">Request Partnership →</span></span>
-          </a>
+          <div class="film__actions">
+            <a href="#cta" class="btn btn--primary" data-magnetic><span class="roll"><span>Start a build</span><span aria-hidden="true">Start a build</span></span></a>
+            <a href="#work" class="btn btn--secondary" data-magnetic><span class="roll"><span>See the work</span><span aria-hidden="true">See the work</span></span></a>
+          </div>
         </div>
 
-        <div class="film__caption">
-          <span class="film__counter"><b id="frameNo">001</b><i>/ 048</i></span>
+        <div class="film__meta mono">
+          <span><b id="frameNo">00:00</b> / 00:06</span>
           <span class="film__hint">Scroll to develop the film</span>
+        </div>
+        <div class="film__ticker mono" aria-hidden="true">
+          <div class="film__track"><span>✦ the repo, yours</span><span>$4/mo hosting, paid to your host</span><span>no platform tax</span><span>keys included</span><span>✦ the repo, yours</span><span>$4/mo hosting, paid to your host</span><span>no platform tax</span><span>keys included</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ============ Ch.1 THE MODEL: pinned statements ============ -->
-    <section class="model" id="model">
+    <!-- ================= Ch.1 WHY US : pinned statements ================= -->
+    <section class="model" id="why">
       <div class="model__sticky">
-        <div class="chapter"><b>Ch. 1</b><i>The Model</i></div>
+        <div class="chapter mono"><b>Ch. 1</b><i>Why us</i></div>
         <div class="model__stack">
-          <h2 class="display display--xl model__line" data-line><em>We build.</em></h2>
-          <h2 class="display display--xl model__line" data-line><em>We rank.</em></h2>
-          <h2 class="display display--xl model__line" data-line><em>We get paid<br/>when you do.</em></h2>
+          <h2 class="display display--xl model__line" data-line><em>Own the code.</em></h2>
+          <h2 class="display display--xl model__line" data-line><em>Zero recurring fees.</em></h2>
+          <h2 class="display display--xl model__line" data-line><em>Built for speed.</em></h2>
         </div>
-        <img class="cloud cloud--a" src="assets/cloud.png" alt="" data-parallax="0.25" />
-        <img class="cloud cloud--b" src="assets/cloud.png" alt="" data-parallax="-0.15" />
+        <img class="berry-mark berry-mark--a" src="assets/berry-close.jpg" alt="" data-parallax="0.3" />
       </div>
     </section>
 
     <section class="lede">
-      <p class="lede__text" data-words>
-        We design the software, put it where your customers are already searching, and take a slice of the revenue that follows. No retainer, no invoices for time — only a stake in the outcome.
-      </p>
+      <div class="chapter mono"><i>What you're actually getting.</i></div>
+      <p class="lede__text" data-words>No monthly platform fees. Ever. The repository, the assets, the deploy pipeline, handed over in full. Hosting runs a few dollars a month, paid to your host, not to me. Hand-written markup, no plugin sediment: sub-second loads on a phone with two bars of signal.</p>
       <ul class="pillars">
-        <li data-reveal><span>01</span><p>Software engineered to rank from day one.</p></li>
-        <li data-reveal><span>02</span><p>Search, content and links that bring the crowd to you.</p></li>
-        <li data-reveal><span>03</span><p>Zero billable hours — we share the result instead.</p></li>
+        <li data-reveal><span class="mono">01</span><h3 class="title">Own the code</h3><p>The repository, the assets, the deploy pipeline, handed over in full. Hire anyone next. Or nobody.</p></li>
+        <li data-reveal><span class="mono">02</span><h3 class="title">Zero recurring fees</h3><p>Hosting runs a few dollars a month, paid to your host, not to me. No plan tiers, no ransom on your own pages.</p></li>
+        <li data-reveal><span class="mono">03</span><h3 class="title">Built for speed</h3><p>Hand-written markup, no plugin sediment. Sub-second loads on a phone with two bars of signal.</p></li>
       </ul>
-      <p class="lede__foot" data-reveal>At your service</p>
     </section>
 
-    <!-- ============ Ch.2 THE WORK: painting spread with cards ============ -->
-    <section class="work" id="work">
-      <div class="work__art" data-halftone>
-        <img src="assets/pear-gilded.jpg" alt="" class="work__img" data-parallax="0.12" />
-        <img src="assets/pear-gilded.jpg" alt="" class="work__img work__img--dots" aria-hidden="true" data-parallax="0.12" />
-        <img class="cloud cloud--c" src="assets/cloud.png" alt="" data-parallax="0.4" />
+    <!-- ================= Ch.2 THE BUILD : sticky video + card spread ================= -->
+    <section class="work" id="build">
+      <div class="work__art">
+        <video class="work__video" muted loop playsinline autoplay preload="metadata" data-autoplay><source src="media/giant-loop.mp4" type="video/mp4" /></video>
+        <video class="work__video work__video--dots" muted loop playsinline autoplay preload="metadata" aria-hidden="true" data-autoplay><source src="media/giant-loop.mp4" type="video/mp4" /></video>
       </div>
-
-      <div class="chapter chapter--light"><b>Ch. 2</b><i>The Work</i></div>
+      <div class="chapter mono chapter--abs"><b>Ch. 2</b><i>The build</i></div>
 
       <article class="card card--a" data-card>
-        <h2 class="serif">One team, one roof,<br/>one goal: visibility.</h2>
-        <p>We treat search and engineering as a single craft. The people writing the code are the same people tuning the rankings, so nothing is lost in the hand-off.</p>
+        <h2 class="title-lg">4 steps, then it's yours.</h2>
+        <p>Two to four weeks, one person, no account management layer between you and the work.</p>
       </article>
-
       <article class="card card--b" data-card>
-        <h3 class="serif serif--sm">Search engine optimization</h3>
-        <p>Technical fixes, content and digital PR run as one programme. We remove what keeps crawlers out, write pages that match what buyers actually type, and earn links that move rankings — measured in revenue, not traffic charts.</p>
+        <span class="mono step">01 — Audit</span>
+        <p>I go through what you have, what it costs you monthly, and what's actually losing you enquiries. You get the findings whether or not we work together.</p>
       </article>
-
       <article class="card card--c" data-card>
-        <h3 class="serif serif--sm">Custom software</h3>
-        <p>Shops, marketplaces, booking flows: the tools a modern business actually sells through. Speed, structure and clean markup are decided at the architecture stage, so search engines get a site they can read without effort.</p>
+        <span class="mono step">02 — Build</span>
+        <p>Design and code in one pass, on your own hosting from day one. You watch it take shape on a live staging link, not in a slide deck.</p>
+      </article>
+      <article class="card card--d" data-card>
+        <span class="mono step">03 — Review</span>
+        <p>Two rounds of changes, marked up directly on the page. Copy, layout, photography: we settle it before launch, not after.</p>
+      </article>
+      <article class="card card--e" data-card>
+        <span class="mono step">04 — Handover</span>
+        <p>Repo, domain, hosting, analytics and a short video walkthrough, all in your name. Support if you want it, never as a condition.</p>
       </article>
     </section>
 
-    <!-- Halftone torn edge -->
     <div class="tear" aria-hidden="true"></div>
 
-    <!-- ============ Ch.3 THE TERMS ============ -->
-    <section class="terms" id="terms">
-      <div class="chapter"><b>Ch. 3</b><i>The Terms</i></div>
+    <!-- ================= Ch.3 HANDOVER DAY ================= -->
+    <section class="terms" id="handover">
+      <div class="chapter mono"><b>Ch. 3</b><i>Handover day</i></div>
+      <h2 class="display display--md" data-split>What actually lands in your name.</h2>
       <div class="terms__grid">
-        <article class="terms__card" data-reveal>
-          <h2 class="serif" data-split>Nothing upfront. A share of what's new.</h2>
-          <p>Starting costs you nothing: no deposit, no project fee, no clock running. Strategy, development, content and links are all funded by us.</p>
-          <hr/>
-          <small>Full disclosure</small>
-          <p class="fine">Our compensation is a pre-agreed percentage of the revenue above your current baseline, tracked in a dashboard both sides can see. Everything we make — code, content, rankings — is yours to keep. We only take on a handful of partners at once, because we can't afford to say yes to the wrong ones.</p>
-        </article>
-        <article class="terms__card" data-reveal>
-          <h2 class="serif" data-split>We decline more than we accept.</h2>
-          <p>The partners we work with sell real things, already have revenue, and operate in markets where buyers use search: online retail, SaaS, marketplaces and service businesses.</p>
-          <hr/>
-          <small>Full disclosure</small>
-          <p class="fine">If that describes you, the terms on the left are the entire pitch. If you're pre-revenue, looking to hire developers by the hour, or need results next week, we're not the right fit — and we'll say so on the first call.</p>
-        </article>
+        <article class="terms__card" data-reveal><h3 class="title">The repository</h3><p>Full git history, transferred to your account. Hire anyone next, or nobody.</p></article>
+        <article class="terms__card" data-reveal><h3 class="title">The domain</h3><p>Registered in your name, with the registrar login handed over.</p></article>
+        <article class="terms__card" data-reveal><h3 class="title">The hosting account</h3><p>Your account, your card, a few dollars a month. Never billed through me.</p></article>
+        <article class="terms__card" data-reveal><h3 class="title">Analytics</h3><p>Set up and connected, reporting to an account you control.</p></article>
+        <article class="terms__card" data-reveal><h3 class="title">A walkthrough</h3><p>A short recorded video of how to edit, deploy and roll back.</p></article>
+        <article class="terms__card terms__card--art" data-reveal><img src="assets/berry-plinth.jpg" alt="" /></article>
       </div>
     </section>
 
-    <!-- ============ Ch.4 QUESTIONS ============ -->
-    <section class="faq" id="questions">
-      <div class="chapter"><b>Ch. 4</b><i>Questions</i></div>
-      <small class="faq__eyebrow" data-reveal>Asked before</small>
-      <div class="faq__list">
-        <details class="faq__item" data-reveal open>
-          <summary><h3 class="serif serif--sm">What does working with Pear cost?</h3><i></i></summary>
-          <div class="faq__body"><p>There's no upfront charge and no hourly rate. We cover the cost of strategy, software, content and links ourselves and get paid as a percentage of the new revenue the work produces. No growth, no bill.</p></div>
-        </details>
-        <details class="faq__item" data-reveal>
-          <summary><h3 class="serif serif--sm">How big is your share?</h3><i></i></summary>
-          <div class="faq__body"><p>We agree it per partnership before kicking off, and it scales with how much needs to be built. It only ever applies to revenue above your existing baseline — never to what you were already earning.</p></div>
-        </details>
-        <details class="faq__item" data-reveal>
-          <summary><h3 class="serif serif--sm">Why not just charge fees?</h3><i></i></summary>
-          <div class="faq__body"><p>Hourly billing rewards effort rather than outcomes. A retainer pays out whether or not you grow. By dropping the retainer entirely, our only route to getting paid is making your revenue climb.</p></div>
-        </details>
-        <details class="faq__item" data-reveal>
-          <summary><h3 class="serif serif--sm">How do you attribute the revenue?</h3><i></i></summary>
-          <div class="faq__body"><p>We start by agreeing on a baseline from your current numbers and on how new organic revenue is measured — analytics, orders or bookings, depending on the business. Both parties look at the same dashboard.</p></div>
-        </details>
-        <details class="faq__item" data-reveal>
-          <summary><h3 class="serif serif--sm">When does it start paying off?</h3><i></i></summary>
-          <div class="faq__body"><p>Search grows slowly, then all at once. Technical work ships within weeks; rankings and revenue usually follow over a few months. Since we finance the ramp-up, the wait costs you nothing.</p></div>
-        </details>
+    <!-- ================= Ch.4 SELECTED WORK : horizontal scroll ================= -->
+    <section class="gallery" id="work">
+      <div class="gallery__sticky">
+        <div class="chapter mono"><b>Ch. 4</b><i>Selected work</i></div>
+        <h2 class="display display--md gallery__title">Work we put our name on.</h2>
+        <div class="gallery__track" id="galleryTrack">
+          <a class="piece" href="https://omnistacksdigital.com/work/clovey-restaurant" target="_blank" rel="noopener" data-tilt>
+            <div class="piece__media piece__media--1"><span class="mono">2025</span></div>
+            <h3 class="title">Clovey Restaurant</h3>
+            <p>A warm, fast, mobile-first website for a modern restaurant — menu, story, and reservations in one effortless experience.</p>
+            <span class="badge">Restaurant website</span>
+          </a>
+          <a class="piece" href="https://omnistacksdigital.com/work/fitplancoach" target="_blank" rel="noopener" data-tilt>
+            <div class="piece__media piece__media--2"><span class="mono">2025</span></div>
+            <h3 class="title">FitPlanCoach</h3>
+            <p>A production-grade fitness web app that turns coaching plans into a clean, guided experience for clients.</p>
+            <span class="badge">Fitness web app</span>
+          </a>
+          <a class="piece" href="https://omnistacksdigital.com/work/banafee" target="_blank" rel="noopener" data-tilt>
+            <div class="piece__media piece__media--3"><span class="mono">100/100 SEO · 0.018 CLS</span></div>
+            <h3 class="title">Banafee Group</h3>
+            <p>A bilingual corporate site for a Malaysian halal food and retail group, built as one cinematic scroll with its own markdown blog and self-hosted admin.</p>
+            <span class="badge">Corporate website</span>
+          </a>
+          <a class="piece piece--ghost" href="#cta">
+            <div class="piece__media piece__media--ghost"><span class="display display--sm"><em>Yours could sit here next.</em></span></div>
+            <span class="btn btn--secondary">See all work →</span>
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- ============ APPLICATION ============ -->
-    <section class="apply" id="apply">
+    <!-- ================= REVIEW + FOUNDER ================= -->
+    <section class="voice">
+      <div class="chapter mono"><i>In their words</i></div>
+      <blockquote class="voice__quote" data-words>They didn't just build what we asked for — they made it better than we imagined, and it shipped on time. One team owned everything, so there was never a gap to fall through.</blockquote>
+      <div class="voice__meta mono" data-reveal><span>Faizan · Director, startup client</span><span>Website, 6 pages + CMS · Apr 2026</span><span class="badge">Verified at handover</span></div>
+
+      <div class="founder" data-reveal>
+        <p class="founder__quote"><em>I started OmniStack after watching too many small businesses pay a platform forever for something they could have owned in a fortnight.</em></p>
+        <div class="founder__row"><span class="mono">Zar, Founder</span><span class="mono">Dublin &amp; Jakarta</span></div>
+        <p>One person, start to finish. You talk to the person writing the code, and nothing about your site lives anywhere you can't reach.</p>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="apply" id="cta">
       <div class="apply__left">
-        <h2 class="serif serif--lg" data-split>Put your company in the upside.</h2>
-        <p class="apply__intro" data-reveal>Tell us what you sell and where you want to grow. We read every application, and if the model fits we reply within a week.</p>
-
+        <div class="chapter mono"><i>Get in touch</i></div>
+        <h2 class="display display--md" data-split>Ready to own your website, not rent it?</h2>
+        <p class="apply__intro" data-reveal>Send one paragraph about your business. You'll get a straight answer on cost, timeline and whether I'm the right person for it.</p>
         <form class="form" id="applyForm" novalidate data-reveal>
-          <label class="field"><span>Your name</span><input type="text" name="name" required autocomplete="name"/></label>
-          <label class="field"><span>Company</span><input type="text" name="company" required autocomplete="organization"/></label>
-          <label class="field"><span>Work email</span><input type="email" name="email" required autocomplete="email"/></label>
-          <label class="field"><span>Website</span><input type="url" name="website" placeholder="https://"/></label>
-          <label class="field field--full"><span>What do you want to grow?</span><textarea name="grow" rows="3" required></textarea></label>
+          <label class="field"><span class="mono">Your name</span><input type="text" name="name" required autocomplete="name" /></label>
+          <label class="field"><span class="mono">Your email</span><input type="email" name="email" required autocomplete="email" /></label>
+          <label class="field field--full"><span class="mono">About your business</span><textarea name="about" rows="4" required></textarea></label>
           <div class="field--full form__actions">
-            <button type="submit" class="btn btn--solid" data-magnetic>
-              <span class="roll"><span>Send the application&nbsp;&nbsp;→</span><span aria-hidden="true">Send the application&nbsp;&nbsp;→</span></span>
-            </button>
-            <svg class="form__pear" id="formPear" viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 4c0 6-1 9-4 13-6 8-12 13-12 22a16 16 0 0 0 32 0c0-9-6-14-12-22-3-4-4-7-4-13z"/></svg>
-            <p class="form__note" id="applyNote" role="status"></p>
+            <button type="submit" class="btn btn--primary" data-magnetic><span class="roll"><span>Start a build →</span><span aria-hidden="true">Start a build →</span></span></button>
+            <a class="btn btn--secondary" href="https://wa.me/353896050083?text=Hi%20OmniStack%20Digital%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener" data-magnetic><span class="roll"><span>WhatsApp us</span><span aria-hidden="true">WhatsApp us</span></span></a>
+            <p class="form__note mono" id="applyNote" role="status">We reply within one business day.</p>
           </div>
         </form>
+        <p class="apply__mail">Or email directly: <a href="mailto:omnistacksdigital@gmail.com">omnistacksdigital@gmail.com</a></p>
       </div>
-
-      <div class="apply__right" data-halftone>
-        <img src="assets/muse.jpg" alt="" class="apply__img" data-parallax="0.1"/>
-        <img src="assets/muse.jpg" alt="" class="apply__img apply__img--dots" aria-hidden="true" data-parallax="0.1"/>
-        <img class="cloud cloud--d" src="assets/cloud.png" alt="" data-parallax="0.35"/>
-        <svg class="plane" id="plane" viewBox="0 0 120 60" aria-hidden="true"><path d="M2 30 L118 2 L80 58 L60 36 Z" fill="#15140f"/><path d="M60 36 L118 2 L52 30 Z" fill="#5a5850"/></svg>
+      <div class="apply__right">
+        <video class="apply__video" muted loop playsinline autoplay preload="metadata" data-autoplay><source src="media/keys-loop.mp4" type="video/mp4" /></video>
+        <video class="apply__video apply__video--dots" muted loop playsinline autoplay preload="metadata" aria-hidden="true" data-autoplay><source src="media/keys-loop.mp4" type="video/mp4" /></video>
       </div>
     </section>
   </main>
@@ -231,20 +221,18 @@
   <div class="tear tear--flip" aria-hidden="true"></div>
 
   <footer class="footer">
-    <a href="#top" class="footer__logo" data-magnetic>
-      <svg viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 4c0 6-1 9-4 13-6 8-12 13-12 22a16 16 0 0 0 32 0c0-9-6-14-12-22-3-4-4-7-4-13z"/></svg>
-      <span>pear</span>
-    </a>
-    <p class="footer__tag serif"><em>Paid on your growth,<br/>never on our hours.</em></p>
-    <div class="footer__row">
-      <span>PEAR AS · OSLO</span>
-      <a href="mailto:hello@example.com">HELLO@EXAMPLE.COM</a>
+    <a href="#top" class="footer__logo" data-magnetic>OmniStack</a>
+    <p class="footer__tag display display--md"><em>The repo, the keys, the hosting —<br />all in your name.</em></p>
+    <div class="footer__row mono">
+      <span>OMNISTACK DIGITAL · DUBLIN &amp; JAKARTA</span>
+      <a href="mailto:omnistacksdigital@gmail.com">OMNISTACKSDIGITAL@GMAIL.COM</a>
     </div>
   </footer>
 
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="vendor/lenis.min.js"></script>
+  <script src="halftone.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
