@@ -58,10 +58,18 @@
     }
   }
   initGL();
-  video.addEventListener('loadedmetadata', () => { video.currentTime = 0.001; }, { once: true });
-  video.addEventListener('canplaythrough', () => { setProgress(100); document.fonts.ready.then(intro); }, { once: true });
-  video.addEventListener('error', () => { setProgress(100); intro(); }, { once: true });
+  // Release the loader as soon as the first frame is decodable; never block on canplaythrough.
+  const ready = () => { setProgress(100); document.fonts.ready.then(intro); };
+  video.addEventListener('loadedmetadata', () => { try { video.currentTime = 0.001; } catch (e) {} }, { once: true });
+  video.addEventListener('loadeddata', ready, { once: true });
+  video.addEventListener('canplay', ready, { once: true });
+  video.addEventListener('error', ready, { once: true });
+  if (video.readyState >= 2) ready();
   video.load(); bufferTick();
+  // time-based floor so the bar always moves, and a hard cap so the page can never stay hidden
+  gsap.to({ p: 0 }, { p: 90, duration: 3, ease: 'power1.out', onUpdate: function () { if (!introDone) setProgress(this.targets()[0].p); } });
+  setTimeout(intro, 4000);
+  addEventListener('error', () => intro());
   // iOS: unlock scrubbing after first gesture
   const unlock = () => { video.play().then(() => video.pause()).catch(() => {}); removeEventListener('touchstart', unlock); };
   addEventListener('touchstart', unlock, { passive: true });
@@ -69,6 +77,10 @@
   /* 4. Intro --------------------------------------------------------- */
   function intro() {
     if (introDone) return; introDone = true;
+    const forceShow = () => { const l = $('#loader'); if (l) l.style.display = 'none'; body.classList.remove('is-loading'); lenis && lenis.start(); };
+    try { runIntro(); } catch (err) { console.error(err); forceShow(); try { buildScroll(); } catch (e2) { console.error(e2); } }
+  }
+  function runIntro() {
     const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
     tl.to('#loader', { yPercent: -100, duration: 1.1, ease: 'expo.inOut', delay: 0.25 })
       .set('#loader', { display: 'none' })
@@ -81,7 +93,6 @@
       .from('.film__meta, .film__ticker', { opacity: 0, duration: 0.8 }, '-=0.6')
       .add(buildScroll, '-=0.8');
   }
-  setTimeout(intro, 9000);
 
   /* 5. Scroll choreography ------------------------------------------ */
   function buildScroll() {
